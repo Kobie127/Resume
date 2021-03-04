@@ -1,183 +1,100 @@
-%%%%%%%%%%%%%%%%%
-% Resume by Kobie Arndt
-%%%%%%%%%%%%%%%%
+%!TEX TS-program = xelatex
 
-%% If you are using \orcid or academicons
-%% icons, make sure you have the academicons
-%% option here, and compile with XeLaTeX
-%% or LuaLaTeX.
-% \documentclass[10pt,a4paper,academicons]{altacv}
+% use only XeLaTeX or LuaLaTeX to compile
+\documentclass[a4paper]{comcv}
 
-%% Use the "normalphoto" option if you want a normal photo instead of cropped to a circle
-% \documentclass[10pt,a4paper,normalphoto]{altacv}
+\usepackage[english]{babel}
 
-\documentclass[10pt,a4paper,ragged2e]{altacv}
+\title{Kobie Arndt Resume}
+\fullname{Kobie}{Arndt}{}
+\cvtitle{A Computer Science student seeking an internship for Summer 2021.}
+\begin
+\phone{\href{tel: 15706575707}{(570) 657-5707}} 
+\email{arndtkobie@gmail.com}
+\github{https://github.com/Kobie127}{Kobie127}
+\linkedin{https://www.linkedin.com/in/kobie-arndt-5a6a17171/}{Kobie Arndt}
 
-%% AltaCV uses the fontawesome and academicon fonts
-%% and packages.
-%% See texdoc.net/pkg/fontawecome and http://texdoc.net/pkg/academicons for full list of symbols. You MUST compile with XeLaTeX or LuaLaTeX if you want to use academicons.
+% \phone{(732) 850-5097}
 
-% Change the page layout if you need to
-\geometry{left=1cm,right=9cm,marginparwidth=6.8cm,marginparsep=1.2cm,top=1.25cm,bottom=1.25cm}
-
-% Change the font if you want to, depending on whether
-% you're using pdflatex or xelatex/lualatex
-\ifxetexorluatex
-  % If using xelatex or lualatex:
-  \setmainfont{Carlito}
-\else
-  % If using pdflatex:
-  \usepackage[utf8]{inputenc}
-  \usepackage[T1]{fontenc}
-  \usepackage[default]{lato}
-  \usepackage[none]{hyphenat}
-  \usepackage{hyperref}
-\fi
-
-% Change the colours if you want to
-\definecolor{VividPurple}{HTML}{3E0097}
-\definecolor{SlateGrey}{HTML}{2E2E2E}
-\definecolor{LightGrey}{HTML}{666666}
-\colorlet{heading}{VividPurple}
-\colorlet{accent}{VividPurple}
-\colorlet{emphasis}{SlateGrey}
-\colorlet{body}{LightGrey}
-
-% Change the bullets for itemize and rating marker
-% for \cvskill if you want to
-\renewcommand{\itemmarker}{{\small\textbullet}}
-\renewcommand{\ratingmarker}{\faCircle}
-
-%% sample.bib contains your publications
-\addbibresource{sample.bib}
 
 \begin{document}
-\name{Kobie Arndt}
-\tagline{Seeking a Software Engineering Internship for Summer 2021 }
 
-\personalinfo{%
-  % Not all of these are required!
-  % You can add your own with \printinfo{symbol}{detail}
-    \normalsize
-      \email{\href{mailto:arndtkobie@gmail.com}{arndtkobie@gmail.com}}
-        \phone{(570) 657-5707}
-          \linkedin{\href{linkedin.com/in/kobie-arndt-5a6a17171/}{kobie-arndt}}
-            \github{\href{github.com/Kobie127}{Kobie127}}
-   
-   
+\section{Education}
+\combosection{Rochester Institute of Technology}{B.S. in Computer Science}{August 2018 - May 2023}{}
 
-%   \orcid{orcid.org/0000-0000-0000-0000} % Obviously making this up too. If you want to use this field (and also other academicons symbols), add "academicons" option to \documentclass{altacv}
+\section{Experience}
+
+\combosection{Red Argyle}{Software Engineering Intern}{August 2020 - Present}{\vspace{\topsep}
+    \begin{tightlist}
+        \item Refactored a document viewing component on the Salesforce platform from the Aura framework into the newer \newline Lightning Web Component framework, improving the overall performance. 
+        \smallskip
+        \item Implemented new features to the document viewing component including sharing documents across the platform, adding a new viewing option for the user, and allowing tagging of documents which  can be referenced across the \newline platform using Apex and Lightning Web Components.
+        \smallskip
+        \item Developed a host of new automated features to help boost the workflow for the user in Apex and Lightning \newline Web Components.
+        \smallskip
+        \item Followed the test driven development pattern by writing unit tests to ensure that all Apex classes functioned as intended.
+        \item Wrote technical documentation and drew state machines which outlined all new and existing processes on the project.
+        
+    \end{tightlist}
 }
 
+\vspace{\topsep}
 
-%% Make the header extend all the way to the right, if you want.
-\begin{adjustwidth}{}{-8cm}
-\makecvheader
-\end{adjustwidth}
+\combosection{Athlete Studio}{Full Stack Engineer Intern}{June 2020 - August 2020}{\vspace{\topsep}}
+    \begin{tightlist}
+        \item Helped refactor the back-end infrastructure from proprietary software to using AWS Lambda, API Gateway, and \newline DynamoDB.  
+        \item Followed a test driven development pattern by writing tests for the API's written in AWS Lambda using Postman software. 
+        \item Developed websites for professional athletes that reached thousands of users using HTML, SCSS, JQuery, Handlebars.js, and interfaced with the Shopify API.
+    \end{tightlist}
+
+\vspace{\topsep}
 
 
-%% Depending on your tastes, you may want to make fonts of itemize environments slightly smaller
-\AtBeginEnvironment{itemize}{\small}
+\section{Projects}
+\combosection{E-Commerce Web App}{React}{May 2020 – Present}{\href{https://github.com/Kobie127/E-Commerce-App}{github.com/Kobie127/E-Commerce-App}\vspace{\topsep}}
+\smallskip
+\begin{tightlist}
+    \item This is currently in development.
+    \item The web app uses the React component design to display all of the items in the system but will be later refactored into Redux.
+    \item The project also uses Google’s Firebase to warehouse the data and the Stripe API to handle payments.
+\end{tightlist}
 
-%% Provide the file name containing the sidebar contents as an optional parameter to \cvsection.
-%% You can always just use \marginpar{...} if you do
-%% not need to align the top of the contents to any
-%% \cvsection title in the "main" bar.
-\cvsection[page1sidebar]{Experience}
+\combosection{2D Platformer}{Unity, C\#}{March 2020 – May 2020}{\href{https://github.com/Kobie127/2D-Platformer}{github.com/Kobie127/2D-Platformer}\vspace{\topsep}}
+\smallskip
+\begin{tightlist}
+    \item 2D platformer game that is built in Unity and C\#.
+    \item  The game has a multitude of features such as enemy AI, saving and loading systems, achievements based on game progression, and multiple player controllers based on if the player is in game or the level select screen.
+    \item The game also features a boss battle which is built as a state machine and is dictated by how the player interacts with it.
+\end{tightlist}
 
-\cvevent{Software Engineering Intern}{Red Argyle}{August 2020 - Present}{\href{redargyle.com}{redargyle.com}}
+
+\combosection{Imagine RIT LED Music Light Visualizer}{Arduino, C++}{February 2019 – April 2019}{\href{https://github.com/Kobie127/MusicVisualizer}{github.com/Kobie127/MusicVisualizer}\vspace{\topsep}}
+\smallskip
+    \begin{tightlist}
+        \item This project was made for the smart car that was built by the Computer Science House for ImagineRIT.
+        \item  It uses the spectrum shield board to read seven bands of equalization from music input.
+        \item The user is then able to select what frequency of bass they want to listen to via the visualizer.
+    \end{tightlist}
+
+\section{Skills}
 \begin{itemize}
-\item  Developing custom solutions on the Salesforce platform using Apex and Lightning Web Components.
-\item Implemented new features that are used by clients.
-\item Has direct impact on decisions being made on how to better improve the platform for the clients and determining how long each solution will take.
-
-\end{itemize}
-
-\divider
-
-\cvevent{Full Stack Engineer Intern}{Athlete Studio}{June 2020 - August 2020}{\href{https://athletestudio.million.studio/}{athletestudio.million.studio}}
-\begin{itemize}
-    \item Redesigned the entire back-end infrastructure using AWS Lambda, API Gateway, and DynamoDB.
-    \item Used Postman software to write tests for the Lambda API's to ensure they can process data efficiently.
-    \item Built websites for professional athletes that reached thousands of users using HTML, SCSS, JQuery, and Handlebars.js.
-\end{itemize}
-
-\bigskip
-
-\cvsection{Projects}
-\cvevent{Imagine RIT LED Music Light Visualizer}{Arduino, C++}{February 2019 -- April 2019}{\href{github.com/Kobie127/MusicVisualizer}{github.com/Kobie127/MusicVisualizer}}
-\begin{itemize}
-\item This project was made for the smart car that was built by the Computer Science House for ImagineRIT.
-\item It uses the spectrum shield board to read seven bands of equalization from music input.
-\item The user is then able to select what frequency of bass they want to listen to via the visualizer.
-\end{itemize}
-\divider
-
-\cvevent{2D Platformer}{C\#, Unity}{March 2020 -- May 2020}{\href{github.com/Kobie127/2D-Platformer}{github.com/Kobie127/2D-Platformer}}
-\begin{itemize}
-\item This project is a complete 2D platformer video game made in Unity and C\#.
-\item The game has features such as platforming obstacles, enemy AI, saving and loading, high score counters, and a boss battle.
-\item The game is built using Object Oriented Programming principles.
-\end{itemize}
-\divider
-
-\cvevent{E-Commerce Web App}{React, Redux, Hooks, GraphQL, ContextAPI, Stripe, Firebase}{Sept 2019 -- Present}{\href{github.com/Kobie127/E-Commerce-App}{github.com/Kobie127/E-Commerce-App}}
-\begin{itemize}
-    \item This project is currently in development.
-    \item Currently uses the React component design but will be later refactored into Redux.
-    \item The project also uses Google's Firebase to warehouse the data.
+    \item {\bf{Languages: }}  {Java, Apex, Python, C\#, HTML 5, SCSS/CSS, JavaScript/JQuery, Node.js, C++, C} % Skills
+    \item {\bf{Technologies: }} {SQL, DynamoDB, Firebase, Lightning Web Components, React, AWS Lambda, AWS, API Gateway,\newline Postman, Salesforce, Git, GitHub, Unity, Arduino}
 \end{itemize}
 
 
+\section{Extracurriculars}
+\combosection{Computer Science House}{Member, Social Director, History Director}{August 2018 – Present}{\href{https://csh.rit.edu/}{csh.rit.edu}\vspace{\topsep}}
+\smallskip
+\begin{tightlist}
+    \item Computer Science House is a living and learning community with a helpful environment that emphasizes hands-on learning and projects outside of the classroom.
 
+    \item  The History director is in charge of keeping contact with alumni and making sure house history is preserved.
 
-% \cvevent{Technical Administrator \& Project Coordinator}{Landmark Group}{May 2011 -- August 2013}{Dubai, UAE}
-% \begin{itemize}
-% \item Managing the internal \& hosted network infrastructure including firewalls, servers, switches and telephony
-% \item Managing the IT budget with cost effective methods
-% \end{itemize}
+    \item The Social director is in charge of organizing, funding, and running most social events for the organization’s members.
 
-% \divider
+\end{tightlist}
 
-% \cvevent{Product Manager \& UI Lead}{Google}{Oct 2001 -- July 2005}{Palo Alto, CA}
-
-% \begin{itemize}
-% \item Appointed by the founder Larry Page in 2001 to lead the Product Management and User Interaction teams
-% \item Optimized Google's homepage and A/B tested every minor detail to increase usability (incl.~spacing between words, % color schemes and pixel-by-pixel element alignment)
-% \end{itemize}
-%
-% \divider
-
-% \cvevent{Product Engineer}{Google}{23 June 1999 -- 2001}{Palo Alto, CA}
-
-% \begin{itemize}
-% \item Joined the company as employe \#20 and female employee \#1
-% \item Developed targeted advertisement in order to use user's search queries and show them related ads
-% \end{itemize}
-
-
-\clearpage
-
-% \cvsection[page2sidebar]{Publications}
-% 
-% \nocite{*}
-% 
-% \printbibliography[heading=pubtype,title={\printinfo{\faBook}{Books}},type=book]
-% 
-% \divider
-% 
-% \printbibliography[heading=pubtype,title={\printinfo{\faFileTextO}{Journal Articles}}, type=article]
-% 
-% \divider
-% 
-% \printbibliography[heading=pubtype,title={\printinfo{\faGroup}{Conference Proceedings}},type=inproceedings]
-% 
-%% If the NEXT page doesn't start with a \cvsection but you'd
-%% still like to add a sidebar, then use this command on THIS
-%% page to add it. The optional argument lets you pull up the
-%% sidebar a bit so that it looks aligned with the top of the
-%% main column.
-% \addnextpagesidebar[-1ex]{page3sidebar}
 
 
 \end{document}
