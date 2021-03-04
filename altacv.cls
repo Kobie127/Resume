@@ -1,307 +1,304 @@
-%%%%%%%%%%%%%%%%%
-% This is altacv.cls (v1.1.5, 1 December 2018) written by
-% LianTze Lim (liantze@gmail.com).
-%
-%% It may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3
-%% of this license or (at your option) any later version.
-%% The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
-%% and version 1.3 or later is part of all distributions of LaTeX
-%% version 2003/12/01 or later.
-%%
-%%
-% Contributions:
-% - https://github.com/akreuzer Added ragged2e option (5 Nov 2018)
-% - https://github.com/stefanogermano Fixed bad boxes and undefined font shape (July 2018)
-% - https://github.com/foohyfooh Fixed blank spaces in \cvevent and bad link in README.md (June 2018)
+%% comcv.cls
+%% Copyright 2021 Avinal Kumar (https://github.com/avinal)
+% Check updated version at https://github.com/avinal/resume
+% 
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
 
-%%%%%%%%%%%%%%%%
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-%% v1.4: Detect TL2018 to handle accented characters in class information
-\@ifl@t@r\fmtversion{2018/04/01}{\UseRawInputEncoding}{}
-\ProvidesClass{altacv}[2018/12/01 AltaCV v1.1.5, yet another alternative class for a résumé/curriculum vitae.]
+% class options 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{comcv}[2021/01/21 Compact CV]
 
-%% v1.1: Optionally load academicons
-\newif\if@academicons
-\DeclareOption{academicons}{\@academiconstrue}
-%% v1.1.3: Choice of round/square photo
-\newif\if@normalphoto
-\DeclareOption{normalphoto}{\@normalphototrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{extarticle}}
-\newif\if@raggedtwoe
-\DeclareOption{ragged2e}{\@raggedtwoetrue}
+\newif\ifextended
+\extendedfalse
+\DeclareOption{extended}{
+    \extendedtrue
+}
+
+\DeclareOption*{
+    \PassOptionsToClass{\CurrentOption}{article}
+}
 \ProcessOptions\relax
+\LoadClass{article}
 
-\LoadClass{extarticle}
 
-\RequirePackage[margin=2cm]{geometry}
-\RequirePackage{fontawesome}
-\RequirePackage{ifxetex,ifluatex}
-\RequirePackage{scrlfile}
+% required packages - put more packages here
+\RequirePackage[top=0.5cm,left=1cm,right=1cm,bottom=1.2cm]{geometry} % Change Horizontal and Vertical margins
+\RequirePackage{fontawesome} % fontawesome icons
+\RequirePackage[usenames,dvipsnames]{xcolor} % custom colors
+\RequirePackage{fontspec} % custom fonts
+\RequirePackage{array}
+\RequirePackage{fancyhdr} % fancy header, footer
+\RequirePackage{titlesec} % formating sections, subsections
+\RequirePackage{hyperref} % for links and, please keep it as last package, add more packages above it
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+% define your colors here
+\definecolor{white}{HTML}{FFFFFF} % color white
+\definecolor{gray}{HTML}{555555} % color gray
+\definecolor{lightgray}{HTML}{999999} % color light gray, a shade of gray
+\definecolor{black}{HTML}{000000} % color black, also gray just deeper
+\definecolor{blue}{HTML}{0000ff} % color coral pink, ever seen a real coral, huh 
 
-%% v1.1.5: added for convenience
-\newif\ifxetexorluatex
-\ifxetex
-  \xetexorluatextrue
-\else
-  \ifluatex
-    \xetexorluatextrue
-  \else
-    \xetexorluatexfalse
-  \fi
-\fi
+% provide colors to your elements
+\colorlet{defaulttext}{black} % default text color
+\colorlet{regulartext}{black} % regular text color
+\colorlet{headertext}{black} % header text color
+\colorlet{linktext}{blue} % link text volor
+\colorlet{lighttext}{lightgray} % light text color
 
-%% v1.1: Optionally load academicons
-%% v1.1.5: Handle different versions of academicons
-\if@academicons
-  \ifxetexorluatex
-    \RequirePackage{fontspec}
-    %% academicons in TL2018 doesn't require
-    %% Academicons to be installed in OS fonts
-    %% so can be loaded directly
-    \@ifl@t@r\fmtversion{2018/04/01}{%
-      \RequirePackage{academicons}
-    }{%
-      % TL2017
-      \@ifl@t@r\fmtversion{2017/04/01}{%
-        \@ifpackagelater{academicons}{2018/03/01}{%
-          \RequirePackage{academicons}
-        }{%
-          \let\ori@newfontfamily\newfontfamily%
-          \renewcommand{\newfontfamily}[2]{}
-          \RequirePackage{academicons}
-          \let\newfontfamily\ori@newfontfamily
-          \newfontfamily{\AI}{academicons.ttf}
-        }
-      }{% TL2016 requires the package to be loaded before
-        % the version can be checked. Only added because
-        % Overleaf v1 still runs TL2016; will be removed
-        % when v1 is completely retired.
-          \let\ori@newfontfamily\newfontfamily%
-          \renewcommand{\newfontfamily}[2]{}
-          \RequirePackage{academicons}
-          \let\newfontfamily\ori@newfontfamily
-          \newfontfamily{\AI}{academicons.ttf}
-      }
-    }
-  \else
-    \ClassError{AltaCV}{academicons unsupported by latex or pdflatex. Please compile with xelatex or lualatex}{Please compile with xelatex or lualatex to use the academicons option}
-  \fi
-\fi
+% hyperref options for generating pdf, metadata
+\hypersetup{
+    colorlinks=true,
+    allcolors=linktext
+}
 
-\if@raggedtwoe
-  \RequirePackage[newcommands]{ragged2e}
-\fi
+% font options
+\setmainfont[
+    Path=fonts/,
+    BoldFont=Roboto-Bold.ttf,
+    ItalicFont=Roboto-Italic.ttf,
+    BoldItalicFont=Roboto-BoldItalic.ttf,
+    Color=regulartext
+]{Roboto-Light.ttf}
 
-\RequirePackage{xcolor}
+\newfontfamily\regular[
+    Path = fonts/, 
+    Color=regulartext
+]{Roboto-Regular.ttf}
 
-\colorlet{accent}{blue!70!black}
-\colorlet{heading}{black}
-\colorlet{emphasis}{black}
-\colorlet{body}{black!80!white}
-\newcommand{\itemmarker}{{\small\textbullet}}
-\newcommand{\ratingmarker}{\faCircle}
+\newfontfamily\light[
+    Path = fonts/, 
+    Color=regulartext
+]{Roboto-Light.ttf}
 
-\RequirePackage{tikz}
-\usetikzlibrary{arrows}
-\RequirePackage[skins]{tcolorbox}
-\RequirePackage{enumitem}
-\setlist{leftmargin=*,labelsep=0.5em,nosep,itemsep=0.25\baselineskip,after=\vskip0.25\baselineskip}
-\setlist[itemize]{label=\itemmarker}
-\RequirePackage{graphicx}
-\RequirePackage{etoolbox}
-\RequirePackage{dashrule}
-\RequirePackage{multirow,tabularx}
-\RequirePackage{changepage}
-% \RequirePackage{marginfix}
+\newfontfamily\thin[
+    Path = fonts/, 
+    Color=defaulttext
+]{Roboto-Thin.ttf}
 
-\setlength{\parindent}{0pt}
-\newcommand{\divider}{\textcolor{body!30}{\hdashrule{\linewidth}{0.6pt}{0.5ex}}\medskip}
+\newfontfamily\regularheader[
+    Path = fonts/, 
+    Color=headertext
+]{Roboto-Regular.ttf}
 
-\newenvironment{fullwidth}{%
-  \begin{adjustwidth}{}{\dimexpr-\marginparwidth-\marginparsep\relax}}
-  {\end{adjustwidth}}
+\newfontfamily\thinheader[
+    Path = fonts/, 
+    Color=headertext
+]{Roboto-Thin.ttf}
 
-\newcommand{\emailsymbol}{\faAt}
-\newcommand{\phonesymbol}{\faPhone}
-\newcommand{\homepagesymbol}{\faChain}
-\newcommand{\locationsymbol}{\faMapMarker}
-\newcommand{\linkedinsymbol}{\faLinkedin}
-\newcommand{\twittersymbol}{\faTwitter}
-\newcommand{\githubsymbol}{\faGithub}
-\newcommand{\orcidsymbol}{\aiOrcid}
-\newcommand{\mailsymbol}{\faEnvelope}
+\newfontfamily\mediumheader[
+    Path = fonts/,
+    Color=headertext
+]{Roboto-Medium.ttf}
 
-\newcommand{\printinfo}[2]{\mbox{\textcolor{accent}{\normalfont #1}\hspace{0.5em}#2\hspace{2em}}}
 
-\newcommand{\name}[1]{\def\@name{#1}}
-\newcommand{\tagline}[1]{\def\@tagline{#1}}
-\newcommand{\photo}[2]{\def\@photo{#2}\def\@photodiameter{#1}}
-\newcommand{\email}[1]{\printinfo{\emailsymbol}{#1}}
-\newcommand{\mailaddress}[1]{\printinfo{\mailsymbol}{#1}}
-\newcommand{\phone}[1]{\printinfo{\phonesymbol}{#1}}
-\newcommand{\homepage}[1]{\printinfo{\homepagesymbol}{#1}}
-\newcommand{\twitter}[1]{\printinfo{\twittersymbol}{#1}}
-\newcommand{\linkedin}[1]{\printinfo{\linkedinsymbol}{#1}}
-\newcommand{\github}[1]{\printinfo{\githubsymbol}{#1}}
-\newcommand{\orcid}[1]{\printinfo{\orcidsymbol}{#1}}
-\newcommand{\location}[1]{\printinfo{\locationsymbol}{#1}}
+% Define an environment for cvhonor
+\newenvironment{cvhonors}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2mm}
+  \begin{center}
+    \setlength\tabcolsep{0pt}
+    \setlength{\extrarowheight}{0pt}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} C{1.5cm} L{\textwidth - 4.0cm} R{2.5cm}}
+}{%
+    \end{tabular*}
+  \end{center}
+}
+% Define a line of cv information(honor, award or something else)
+% Usage: \cvhonor{<position>}{<title>}{<location>}{<date>}
+\newcommand*{\cvhonor}[4]{%
+  \honordatestyle{#4} & \honorpositionstyle{#1}, \honortitlestyle{#2} & \honorlocationstyle{#3} \\
+}
 
-\newcommand{\personalinfo}[1]{\def\@personalinfo{#1}}
+% Define an environment for cvskill
+\newenvironment{cvskills}{%
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2.0mm}
+  \begin{center}
+    \setlength\tabcolsep{1ex}
+    \setlength{\extrarowheight}{0pt}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r L{\textwidth * \real{0.9}}}
+}{%
+    \end{tabular*}
+  \end{center}
+}
+% Define a line of cv information(skill)
+% Usage: \cvskill{<type>}{<skillset>}
+\newcommand*{\cvskill}[2]{%
+	\skilltypestyle{#1} & \skillsetstyle{#2} \\
+}
 
-\newcommand{\makecvheader}{%
-  \begingroup
-    \ifdef{\@photodiameter}{\begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}}{}%
-    \raggedright\color{emphasis}%
-    {\Huge\bfseries\MakeUppercase{\@name}\par}
-    \medskip
-    {\large\bfseries\color{accent}\@tagline\par}
-    \medskip
-    {\footnotesize\bfseries\@personalinfo\par}
-    \ifdef{\@photodiameter}{%
-    \end{minipage}\hfill%
-    \begin{minipage}{\@photodiameter}
-    \if@normalphoto
-      \includegraphics[width=\linewidth]{\@photo}
+% Define an environment for cvitems(for cventry)
+\newenvironment{cvitems}{%
+  \vspace{-4.0mm}
+  \begin{justify}
+  \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
+    \setlength{\parskip}{0pt}
+    \renewcommand{\labelitemi}{\bullet}
+}{%
+  \end{itemize}
+  \end{justify}
+  \vspace{-4.0mm}
+}
+
+% define document commands/variables
+\newcommand*{\fullname}[3]{\def\comcv@firstname{#1}\def\comcv@lastname{#2}\def\comcv@degree{#3}} % full name and degree
+
+\newcommand*{\cvtitle}[1]{\def\comcv@title{#1}} % title of the document
+
+\newcommand*{\phone}[2]{\def\comcv@phoneurl{#1}\def\comcv@phonetext{#2}} % phone
+
+\newcommand*{\email}[1]{\def\comcv@mailid{#1}} % email id and email text
+
+\newcommand*{\website}[2]{\def\comcv@websiteurl{#1}\def\comcv@websitetext{#2}} % website and website text
+
+\newcommand*{\github}[2]{\def\comcv@githuburl{#1}\def\comcv@githubtext{#2}} % github
+
+\newcommand*{\linkedin}[2]{\def\comcv@linkedinurl{#1}\def\comcv@linkedintext{#2}} % linkedin
+
+
+
+\newcommand\horbar[1][]{\noindent\makebox[\linewidth]{\color{gray}\rule{\paperwidth}{0.4pt}}} % unindented horizontal line
+
+
+
+% link colors
+\def\HyColor@@@@UseColor#1\@nil{\addfontfeatures{Color=linktext}}
+
+% redefining some commands
+\titlespacing{\section}{0pt}{0pt}{0pt} % remove space around sections
+\titleformat{\section}{
+    \fontsize{14pt}{16pt}\thinheader\bfseries\uppercase 
+}{}{0pt}{}
+
+
+
+\titlespacing{\subsection}{0pt}{0pt}{0pt} % remove space around subsection
+\titleformat{\subsection}[runin]{ % runin option let you put text side of section or subsection
+    \fontsize{12pt}{12pt}\mediumheader\bfseries
+}{}{0pt}{}
+
+% new command for writing subsection and descriptions
+\newcommand{\combosection}[4]{
+    \subsection{\textbf{#1}}
+    \ifx&#2&
     \else
-      \tikz\path[fill overzoom image={\@photo}]circle[radius=0.5\linewidth];
-    \fi%
-    \end{minipage}\par}{}%
-  \endgroup\medskip
+    \Large\addfontfeatures{Color=linktext}{~|}
+    \light\large{#2}
+    \fi
+    \hfill{#3}
+    \linebreak
+    \normalsize{#4}
 }
 
-\renewenvironment{quote}{\color{accent}\itshape\large}{\par}
+% header
+\AtBeginDocument{
+    % hyperref options
+    \hypersetup{
+        pdfauthor={\comcv@firstname~\comcv@lastname}, % author of the file
+        pdftitle={\comcv@firstname~\comcv@lastname's Résumé}, % title for the generated pdf
+    }
+    
+    \ifdefined\comcv@phoneurl
+    \ifx\comcv@phoneurl\empty
+        \def\comcv@phone{}
+    \else
+        \def\comcv@phone{\faPhone~\href{\comcv@phoneurl}{\comcv@phonetext}}
+    \fi
+    \else
+        \def\comcv@phone{}
+    \fi
+    
+    \def\comcv@email{\faEnvelope~\href{mailto:\comcv@mailid}{\comcv@mailid}}
+    
+    \ifdefined\comcv@linkedinurl
+    \ifx\comcv@linkedinurl\empty
+        \def\comcv@linkedin{}
+    \else
+        \def\comcv@linkedin{\faLinkedin~\href{\comcv@linkedinurl}{\comcv@linkedintext}}
+    \fi
+    \else
+        \def\comcv@linkedin{}
+    \fi
+    
+    \ifdefined\comcv@githuburl
+    \ifx\comcv@githuburl\empty
+        \def\comcv@github{}
+    \else
+        \def\comcv@github{\faGithub~\href{\comcv@githuburl}{\comcv@githubtext}}
+    \fi
+    \else
+        \def\comcv@github{}
+    \fi
+    
+    \ifdefined\comcv@websiteurl
+    \ifx\comcv@websiteurl\empty
+        \def\comcv@website{}
+    \else
+        \def\comcv@website{\faGlobe~\href{\comcv@websiteurl}{\comcv@websitetext}}
+    \fi
+    \else
+        \def\comcv@website{}
+    \fi
+    
 
-\newcommand{\cvsection}[2][]{%
-  \bigskip%
-  \ifstrequal{#1}{}{}{\marginpar{\vspace*{\dimexpr1pt-\baselineskip}\raggedright\input{#1}}}%
-  {\color{heading}\LARGE\bfseries\MakeUppercase{#2}}\\[-1ex]%
-  {\color{heading}\rule{\linewidth}{2pt}\par}\medskip
+    \begin{center}
+        % define your header text size, color and format
+        \fontsize{35pt}{45pt}\thinheader\comcv@firstname~\regularheader\comcv@lastname
+        \ifx\comcv@degree\empty% do nothing in case of empty degree
+        \else
+            \thinheader,~\comcv@degree
+        \fi
+
+        \ifdefined\comcv@title
+        \ifx\comcv@title\empty
+            \large\light\comcv@phone~~\comcv@email~~\comcv@website~~\comcv@github~~\comcv@linkedin
+            \vspace{-\topsep}
+            \horbar
+            \vspace{-\topsep}
+        \else
+            \large\light\comcv@title
+            \vspace{-\topsep}
+            \horbar
+
+            \comcv@phone~~\comcv@email~~\comcv@website~~\comcv@github~~\comcv@linkedin
+            \vspace{-\topsep}
+        \fi
+        \else
+            \large\light\comcv@phone~~\comcv@email~~\comcv@website~~\comcv@github~~\comcv@linkedin
+            \vspace{-\topsep}
+            \horbar
+            \vspace{-\topsep}
+        \fi
+    
+    \end{center}
 }
 
-\newcommand{\cvsubsection}[1]{%
-  \smallskip%
-  {\color{emphasis}\large\bfseries{#1}\par}\medskip
+% footer
+\newcommand*{\currentdate}[1]{\def\comcv@date{#1}}
+\def\comcv@totpages{~/~\regular\ref{TotPages}}
+\def\comcv@page{\light{Page~}\thepage\comcv@totpages}
+
+\AtBeginDocument{
+    \pagestyle{fancy}
+    \fancyhead{}
+    \fancyfoot[C]{\footnotesize\light\comcv@firstname's Résumé \comcv@date, \comcv@email} % footer text
+    \renewcommand{\headrulewidth}{0em}
+    \setlength\footskip{\baselineskip}
 }
 
-% v1.1.4: fixes inconsistent font size
-\newcommand{\cvevent}[4]{%
-  {\large\color{emphasis}#1\par}
-  \smallskip\normalsize
-  \ifstrequal{#2}{}{}{
-  \textbf{\color{accent}#2}\par
-  \smallskip}
-  \ifstrequal{#3}{}{}{{\small\makebox[0.5\linewidth][l]{\faCalendar\hspace{0.5em}#3}}}%
-  \ifstrequal{#4}{}{}{{\small\makebox[0.5\linewidth][l]{\homepagesymbol\hspace{0.5em}#4}}}\par
-  \medskip\normalsize
-}
-
-\newcommand{\cvachievement}[3]{%
-  \begin{tabularx}{\linewidth}{@{}p{2em} @{\hspace{1ex}} >{\raggedright\arraybackslash}X@{}}
-  \multirow{2}{*}{\Large\color{accent}#1} & \bfseries\textcolor{emphasis}{#2}\\
-  & #3
-  \end{tabularx}%
-  \smallskip
-}
-
-\newcommand{\cvtag}[1]{%
-  \tikz[baseline]\node[anchor=base,draw=body!30,rounded corners,inner xsep=1ex,inner ysep =0.75ex,text height=1.5ex,text depth=.25ex]{#1};
-}
-
-\newcommand{\cvskill}[2]{%
-\textcolor{emphasis}{\textbf{#1}}\hfill
-\foreach \x in {1,...,5}{%
-  \space{\ifnumgreater{\x}{#2}{\color{body!30}}{\color{accent}}\ratingmarker}}\par%
-}
-
-% Adapted from @Jake's answer at http://tex.stackexchange.com/a/82729/226
-\newcommand{\wheelchart}[4][0]{%
-    \begingroup\centering
-    \def\innerradius{#3}%
-    \def\outerradius{#2}%
-    % Calculate total
-    \pgfmathsetmacro{\totalnum}{0}%
-    \foreach \value/\colour/\name in {#4} {%
-        \pgfmathparse{\value+\totalnum}%
-        \global\let\totalnum=\pgfmathresult%
-    }%
-    \begin{tikzpicture}
-
-      % Calculate the thickness and the middle line of the wheel
-      \pgfmathsetmacro{\wheelwidth}{\outerradius-\innerradius}
-      \pgfmathsetmacro{\midradius}{(\outerradius+\innerradius)/2}
-      \pgfmathsetmacro{\totalrot}{-90 + #1}
-
-      % Rotate so we start from the top
-      \begin{scope}[rotate=\totalrot]
-
-      % Loop through each value set. \cumnum keeps track of where we are in the wheel
-      \pgfmathsetmacro{\cumnum}{0}
-      \foreach \value/\width/\colour/\name in {#4} {
-            \pgfmathsetmacro{\newcumnum}{\cumnum + \value/\totalnum*360}
-
-            % Calculate the percent value
-            \pgfmathsetmacro{\percentage}{\value/\totalnum*100}
-            % Calculate the mid angle of the colour segments to place the labels
-            \pgfmathsetmacro{\midangle}{-(\cumnum+\newcumnum)/2}
-
-            % This is necessary for the labels to align nicely
-            \pgfmathparse{
-               (-\midangle>180?"west":"east")
-            } \edef\textanchor{\pgfmathresult}
-            \pgfmathparse{
-               (-\midangle>180?"flush left":"flush right")
-            } \edef\textalign{\pgfmathresult}
-            \pgfmathsetmacro\labelshiftdir{1-2*(-\midangle<180)}
-
-            % Draw the color segments. Somehow, the \midrow units got lost, so we add 'pt' at the end. Not nice...
-            \filldraw[draw=white,fill=\colour] (-\cumnum:\outerradius) arc (-\cumnum:-(\newcumnum):\outerradius) --
-            (-\newcumnum:\innerradius) arc (-\newcumnum:-(\cumnum):\innerradius) -- cycle;
-
-            % Draw the data labels
-            \draw  [*-,thin,emphasis] node [append after command={(\midangle:\midradius pt) -- (\midangle:\outerradius + 1ex) -- (\tikzlastnode)}] at (\midangle:\outerradius + 1ex) [xshift=\labelshiftdir*0.5cm,inner sep=1ex, outer sep=0pt, text width=\width,anchor=\textanchor,align=\textalign,font=\small,text=body]{\name};
-            % Set the old cumulated angle to the new value
-            \global\let\cumnum=\newcumnum
-        }
-      \end{scope}
-%      \draw[gray] (0,0) circle (\outerradius) circle (\innerradius);
-    \end{tikzpicture}\par
-    \endgroup
-}
-
-\newcommand{\cvref}[3]{%
-  \smallskip
-  \textcolor{emphasis}{\textbf{#1}}\par
-  \begin{description}[font=\color{accent},style=multiline,leftmargin=1.35em]
-  \item[\normalfont\emailsymbol] #2
-  \item[\small\normalfont\mailsymbol] #3
-  \end{description}
-%   \medskip
-}
-
-\newenvironment{cvcolumn}[1]{\begin{minipage}[t]{#1}\raggedright}{\end{minipage}}
-
-\RequirePackage[backend=biber,style=authoryear,sorting=ydnt]{biblatex}
-%% For removing numbering entirely when using a numeric style
-% \setlength{\bibhang}{1em}
-% \DeclareFieldFormat{labelnumberwidth}{\makebox[\bibhang][l]{\itemmarker}}
-% \setlength{\biblabelsep}{0pt}
-\defbibheading{pubtype}{\cvsubsection{#1}}
-\renewcommand{\bibsetup}{\vspace*{-\baselineskip}}
-\AtEveryBibitem{\makebox[\bibhang][l]{\itemmarker}}
-\setlength{\bibitemsep}{0.25\baselineskip}
-
-% v1.1.2: make it easier to add a sidebar aligned with top of next page
-\RequirePackage{afterpage}
-\newcommand{\addsidebar}[2][]{\marginpar{%
-  \ifstrequal{#1}{}{}{\vspace*{#1}}%
-  \input{#2}}%
-}
-\newcommand{\addnextpagesidebar}[2][]{\afterpage{\addsidebar[#1]{#2}}}
-
-\AtBeginDocument{%
-  \pagestyle{empty}
-  \color{body}
-  \raggedright
+\newenvironment{tightlist}{
+    \vspace{-6mm}
+    \begin{itemize}
+        \itemsep1pt
+        \parskip0pt
+        \parsep0pt
+}{
+    \end{itemize}
 }
